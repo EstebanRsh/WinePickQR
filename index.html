@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WINE‑PICK‑QR · Inicio</title>
+    <!-- Iconos locales (proporcionados en el proyecto) -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <style>
+      :root {
+        --wine: #7b1e2b; /* color principal */
+        --wine-600: #6a1a25; /* hover/active */
+        --ink: #171717; /* texto */
+        --muted: #6b7280; /* texto secundario */
+        --bg: #f6f7f8; /* fondo */
+        --card: #ffffff; /* tarjetas */
+        --border: #e5e7eb; /* bordes */
+        --radius: 14px; /* redondeado base */
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font: 400 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+          "Segoe UI Emoji";
+        color: var(--ink);
+        background: var(--bg);
+      }
+      a {
+        color: inherit;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .container {
+        max-width: 1080px;
+        margin-inline: auto;
+        padding-inline: 16px;
+      }
+
+      /* Navbar */
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+      }
+      .brand img {
+        width: 28px;
+        height: 28px;
+      }
+      .nav-spacer {
+        flex: 1;
+      }
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-weight: 600;
+        border: 1px solid transparent;
+      }
+      .btn-primary {
+        background: var(--wine);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--wine-600);
+      }
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--ink);
+      }
+      .btn-ghost:hover {
+        border-color: var(--muted);
+      }
+      .btn-small {
+        padding: 7px 12px;
+        font-size: 14px;
+      }
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .btn:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #0000;
+        box-shadow: 0 0 0 3px rgba(123, 30, 43, 0.3);
+      }
+
+      /* Hero + buscador */
+      .hero {
+        padding: 22px 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+      }
+      .hero .card {
+        padding: 20px;
+      }
+      .hero h1 {
+        font-size: 20px;
+        margin: 0 0 6px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+
+      .search {
+        margin-top: 14px;
+      }
+      .search form {
+        display: flex;
+        gap: 8px;
+      }
+      .search input[type="search"] {
+        flex: 1;
+        min-height: 44px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+      .search button {
+        min-height: 44px;
+      }
+
+      /* Sección: Más buscados */
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 22px 0 12px;
+      }
+      .section-title h2 {
+        font-size: 18px;
+        margin: 0;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      @media (min-width: 520px) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (min-width: 768px) {
+        .grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      @media (min-width: 1100px) {
+        .grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+
+      .tile {
+        display: block;
+        text-decoration: none;
+      }
+      .tile .box {
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .tile .media {
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+      }
+      .tile h3 {
+        margin: 0;
+        font-size: 15px;
+        text-align: center;
+      }
+      .tile p {
+        margin: 6px 10px 14px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+      .tile:hover .box {
+        border-color: #d5d7de;
+      }
+
+      footer {
+        padding: 36px 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      /* Botón flotante (QR) */
+      .fab {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--wine);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        z-index: 50;
+      }
+      .fab:hover {
+        background: var(--wine-600);
+      }
+      .fab:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(123, 30, 43, 0.35);
+      }
+      .fab svg {
+        width: 26px;
+        height: 26px;
+        display: block;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .fab {
+          transition: transform 0.12s ease, background 0.2s ease;
+        }
+        .fab:hover {
+          transform: translateY(-2px);
+        }
+        .fab:active {
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a class="brand" href="#/">
+          <img src="icon-192.png" alt="Logo WINE‑PICK‑QR" />
+          <span>WINE‑PICK‑QR</span>
+        </a>
+        <div class="nav-spacer"></div>
+        <a
+          class="btn btn-ghost btn-small"
+          href="#/login"
+          aria-label="Iniciar sesión"
+          >Login</a
+        >
+        <!-- Botón instalar: sin JS (placeholder); luego se puede enganchar al evento beforeinstallprompt -->
+        <a
+          class="btn btn-primary btn-small"
+          href="#/instalar"
+          aria-label="Instalar la app"
+          >Instalar</a
+        >
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- HERO + BUSCADOR -->
+      <section class="hero">
+        <div class="card">
+          <h1>Encontrá el precio final y promos en segundos</h1>
+          <p class="muted">
+            Escaneá el QR en góndola o buscá por nombre, bodega o varietal.
+          </p>
+          <div class="search">
+            <form action="#/buscar" method="get" role="search">
+              <label class="visually-hidden" for="q">Buscar productos</label>
+              <input
+                id="q"
+                name="q"
+                type="search"
+                placeholder="Buscar por nombre, bodega o varietal"
+                autocomplete="off"
+              />
+              <button class="btn btn-ghost" type="submit">Buscar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÁS BUSCADOS -->
+      <section aria-labelledby="mas-buscados">
+        <div class="section-title">
+          <h2 id="mas-buscados">Más buscados</h2>
+          <a class="muted" href="#/buscar">Ver todos</a>
+        </div>
+        <div class="grid">
+          <!-- Item 1 -->
+          <a
+            class="tile"
+            href="#/p/XXXX1111"
+            aria-label="Abrir Malbec Reserva 2021, Bodega X, Mendoza"
+          >
+            <article class="box">
+              <div class="media">
+                <h3>Malbec Reserva 2021</h3>
+              </div>
+              <p>Bodega X · Mendoza</p>
+            </article>
+          </a>
+          <!-- Item 2 -->
+          <a
+            class="tile"
+            href="#/p/XXXX2222"
+            aria-label="Abrir Cabernet Sauvignon 2020, Bodega Y, Valle de Uco"
+          >
+            <article class="box">
+              <div class="media"><h3>Cabernet Sauv. 2020</h3></div>
+              <p>Bodega Y · Valle de Uco</p>
+            </article>
+          </a>
+          <!-- Item 3 -->
+          <a
+            class="tile"
+            href="#/p/XXXX3333"
+            aria-label="Abrir Blend Andino 2019, Bodega Z, Patagonia"
+          >
+            <article class="box">
+              <div class="media"><h3>Blend Andino 2019</h3></div>
+              <p>Bodega Z · Patagonia</p>
+            </article>
+          </a>
+          <!-- Item 4 -->
+          <a
+            class="tile"
+            href="#/p/XXXX4444"
+            aria-label="Abrir Bonarda Joven 2022, Bodega Ñ, San Juan"
+          >
+            <article class="box">
+              <div class="media"><h3>Bonarda Joven 2022</h3></div>
+              <p>Bodega Ñ · San Juan</p>
+            </article>
+          </a>
+          <!-- Item 5 -->
+          <a
+            class="tile"
+            href="#/p/XXXX5555"
+            aria-label="Abrir Syrah 2020, Bodega Alfa, La Rioja"
+          >
+            <article class="box">
+              <div class="media"><h3>Syrah 2020</h3></div>
+              <p>Bodega Alfa · La Rioja</p>
+            </article>
+          </a>
+          <!-- Item 6 -->
+          <a
+            class="tile"
+            href="#/p/XXXX6666"
+            aria-label="Abrir Pinot Noir 2021, Bodega Beta, Río Negro"
+          >
+            <article class="box">
+              <div class="media"><h3>Pinot Noir 2021</h3></div>
+              <p>Bodega Beta · Río Negro</p>
+            </article>
+          </a>
+          <!-- Item 7 -->
+          <a
+            class="tile"
+            href="#/p/XXXX7777"
+            aria-label="Abrir Chardonnay 2022, Bodega Delta, Valle Calchaquí"
+          >
+            <article class="box">
+              <div class="media"><h3>Chardonnay 2022</h3></div>
+              <p>Bodega Delta · Valle Calchaquí</p>
+            </article>
+          </a>
+          <!-- Item 8 -->
+          <a
+            class="tile"
+            href="#/p/XXXX8888"
+            aria-label="Abrir Torrontés 2023, Bodega Omega, Salta"
+          >
+            <article class="box">
+              <div class="media"><h3>Torrontés 2023</h3></div>
+              <p>Bodega Omega · Salta</p>
+            </article>
+          </a>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year">2025</span> WINE‑PICK‑QR — plantilla HTML+CSS
+      </footer>
+    </main>
+    <a class="fab" href="#/scan" aria-label="Escanear QR" title="Escanear QR">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <rect x="3" y="3" width="6" height="6" rx="1" />
+        <rect x="15" y="3" width="6" height="6" rx="1" />
+        <rect x="3" y="15" width="6" height="6" rx="1" />
+        <rect x="10" y="10" width="4" height="4" />
+        <rect x="16" y="16" width="2" height="2" />
+        <rect x="13" y="17" width="2" height="2" />
+        <rect x="17" y="13" width="2" height="2" />
+      </svg>
+    </a>
+  </body>
+</html>

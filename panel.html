@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WINE‑PICK‑QR · Panel administrador</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <style>
+      :root {
+        --wine: #7b1e2b;
+        --wine-600: #6a1a25;
+        --ink: #171717;
+        --muted: #6b7280;
+        --bg: #f6f7f8;
+        --card: #fff;
+        --border: #e5e7eb;
+        --radius: 14px;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --success: #0d9488;
+        --danger: #b42318;
+        --warning: #b45309;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font: 400 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto;
+        color: var(--ink);
+        background: var(--bg);
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: #fff;
+        border-right: 1px solid var(--border);
+        padding: 18px 14px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 8px;
+        border-radius: 12px;
+        font-weight: 800;
+      }
+      .brand img {
+        width: 28px;
+        height: 28px;
+      }
+      .nav {
+        margin-top: 16px;
+        display: grid;
+        gap: 6px;
+      }
+      .nav a {
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: #111827;
+      }
+      .nav a.active {
+        background: #f3f4f6;
+        font-weight: 700;
+      }
+      .nav a.disabled {
+        color: #9ca3af;
+        pointer-events: none;
+      }
+
+      /* Topbar */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+      .btn-primary {
+        background: var(--wine);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--wine-600);
+      }
+      .btn-ghost {
+        border-color: var(--border);
+        background: #fff;
+      }
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+      }
+
+      main {
+        padding: 18px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      /* Filtros + buscador */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .toolbar input[type="search"] {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        min-height: 40px;
+        padding: 0 12px;
+      }
+
+      /* Tabla productos */
+      .table-wrap {
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      thead {
+        background: #f9fafb;
+      }
+      th,
+      td {
+        padding: 12px 10px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #374151;
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--border);
+        color: #374151;
+      }
+      .badge.green {
+        border-color: #10b981;
+        color: #065f46;
+      }
+      .badge.amber {
+        border-color: #f59e0b;
+        color: #92400e;
+      }
+      .actions {
+        display: flex;
+        gap: 6px;
+      }
+
+      /* Modales (CSS puro con :target) */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(0, 0, 0, 0.35);
+        padding: 18px;
+      }
+      .modal:target {
+        display: grid;
+      }
+      .modal .dialog {
+        width: 100%;
+        max-width: 560px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+      .dialog header {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        font-weight: 800;
+      }
+      .dialog .body {
+        padding: 16px;
+      }
+      .dialog .footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 14px 16px;
+        border-top: 1px solid var(--border);
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        min-height: 40px;
+      }
+      select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        min-height: 40px;
+        background: #fff;
+      }
+
+      /* Responsive */
+      @media (max-width: 960px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          position: static;
+          height: auto;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .nav {
+          display: flex;
+          gap: 8px;
+          margin: 0 0 0 auto;
+        }
+        .nav a {
+          padding: 8px 10px;
+        }
+        .topbar {
+          top: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Navegación administrador">
+        <a class="brand" href="admin-panel.html">
+          <img src="icon-192.png" alt="Logo" />
+          <span>WINE‑PICK‑QR</span>
+        </a>
+        <nav class="nav">
+          <a class="active" href="#">Productos</a>
+          <a class="disabled" href="#" aria-disabled="true" title="Próximamente"
+            >Promociones</a
+          >
+          <a class="disabled" href="#" aria-disabled="true" title="Próximamente"
+            >Ajustes</a
+          >
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <div>
+        <header class="topbar">
+          <div class="topbar-inner">
+            <strong>Productos</strong>
+            <div>
+              <a class="btn btn-ghost" href="admin-login.html">Cerrar sesión</a>
+              <a
+                class="btn btn-primary"
+                href="#nuevo-producto"
+                aria-haspopup="dialog"
+                >Nuevo producto</a
+              >
+            </div>
+          </div>
+        </header>
+
+        <main>
+          <!-- Toolbar (buscador simple) -->
+          <div class="toolbar">
+            <input
+              type="search"
+              placeholder="Buscar por nombre, bodega o varietal"
+              aria-label="Buscar productos"
+            />
+            <span class="badge">Mostrando 8 productos</span>
+          </div>
+
+          <!-- Tabla -->
+          <section class="card" aria-labelledby="titulo-listado">
+            <div class="section-title">
+              <h2 id="titulo-listado" style="margin: 12px">
+                Listado de productos
+              </h2>
+            </div>
+            <div class="table-wrap">
+              <table role="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Bodega</th>
+                    <th>Varietal</th>
+                    <th>Precio base</th>
+                    <th>Promo vigente</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Malbec Reserva 2021</td>
+                    <td>Bodega X</td>
+                    <td>Malbec</td>
+                    <td>$ 12.500</td>
+                    <td><span class="badge green">−15%</span></td>
+                    <td><span class="badge">Activo</span></td>
+                    <td class="actions">
+                      <a class="btn btn-ghost" href="#editar-producto"
+                        >Editar</a
+                      >
+                      <a class="btn btn-danger" href="#eliminar-producto"
+                        >Eliminar</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cabernet Sauvignon 2020</td>
+                    <td>Bodega Y</td>
+                    <td>Cabernet</td>
+                    <td>$ 10.900</td>
+                    <td>—</td>
+                    <td><span class="badge">Activo</span></td>
+                    <td class="actions">
+                      <a class="btn btn-ghost" href="#editar-producto"
+                        >Editar</a
+                      >
+                      <a class="btn btn-danger" href="#eliminar-producto"
+                        >Eliminar</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Blend Andino 2019</td>
+                    <td>Bodega Z</td>
+                    <td>Blend</td>
+                    <td>$ 9.800</td>
+                    <td><span class="badge amber">2×1</span></td>
+                    <td><span class="badge">Activo</span></td>
+                    <td class="actions">
+                      <a class="btn btn-ghost" href="#editar-producto"
+                        >Editar</a
+                      >
+                      <a class="btn btn-danger" href="#eliminar-producto"
+                        >Eliminar</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- MODAL: nuevo producto -->
+    <section
+      id="nuevo-producto"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="nuevo-title"
+    >
+      <div class="dialog">
+        <header><h3 id="nuevo-title">Nuevo producto</h3></header>
+        <form class="body" action="#" method="post">
+          <div class="field">
+            <label for="nombre">Nombre</label
+            ><input
+              id="nombre"
+              name="nombre"
+              type="text"
+              placeholder="Malbec Reserva 2021"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="bodega">Bodega</label
+            ><input
+              id="bodega"
+              name="bodega"
+              type="text"
+              placeholder="Bodega X"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="varietal">Varietal</label
+            ><input
+              id="varietal"
+              name="varietal"
+              type="text"
+              placeholder="Malbec"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="precio">Precio base</label
+            ><input
+              id="precio"
+              name="precio"
+              type="number"
+              inputmode="decimal"
+              placeholder="12500"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="promo">Promo vigente (opcional)</label
+            ><input
+              id="promo"
+              name="promo"
+              type="text"
+              placeholder="-15% / 2x1 / Banco X"
+            />
+          </div>
+          <div class="field">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              <option>Activo</option>
+              <option>Inactivo</option>
+            </select>
+          </div>
+          <div class="footer">
+            <a class="btn btn-ghost" href="#">Cancelar</a>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- MODAL: editar producto (plantilla) -->
+    <section
+      id="editar-producto"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="editar-title"
+    >
+      <div class="dialog">
+        <header><h3 id="editar-title">Editar producto</h3></header>
+        <form class="body" action="#" method="post">
+          <div class="field">
+            <label for="e-nombre">Nombre</label
+            ><input
+              id="e-nombre"
+              type="text"
+              value="Malbec Reserva 2021"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="e-bodega">Bodega</label
+            ><input id="e-bodega" type="text" value="Bodega X" required />
+          </div>
+          <div class="field">
+            <label for="e-varietal">Varietal</label
+            ><input id="e-varietal" type="text" value="Malbec" required />
+          </div>
+          <div class="field">
+            <label for="e-precio">Precio base</label
+            ><input
+              id="e-precio"
+              type="number"
+              inputmode="decimal"
+              value="12500"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="e-promo">Promo vigente</label
+            ><input id="e-promo" type="text" value="-15%" />
+          </div>
+          <div class="field">
+            <label for="e-estado">Estado</label>
+            <select id="e-estado">
+              <option selected>Activo</option>
+              <option>Inactivo</option>
+            </select>
+          </div>
+          <div class="footer">
+            <a class="btn btn-ghost" href="#">Cancelar</a>
+            <button class="btn btn-primary" type="submit">
+              Guardar cambios
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- MODAL: eliminar confirmación -->
+    <section
+      id="eliminar-producto"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="eliminar-title"
+    >
+      <div class="dialog">
+        <header><h3 id="eliminar-title">Eliminar producto</h3></header>
+        <div class="body">
+          <p>
+            ¿Seguro que querés eliminar <strong>Malbec Reserva 2021</strong>?
+            Esta acción no se puede deshacer.
+          </p>
+        </div>
+        <div class="footer">
+          <a class="btn btn-ghost" href="#">Cancelar</a>
+          <a class="btn btn-danger" href="#">Eliminar</a>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

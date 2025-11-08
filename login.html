@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WINE‑PICK‑QR · Acceso administrador</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <style>
+      :root {
+        --wine: #7b1e2b;
+        --wine-600: #6a1a25;
+        --ink: #171717;
+        --muted: #6b7280;
+        --bg: #f6f7f8;
+        --card: #fff;
+        --border: #e5e7eb;
+        --radius: 14px;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font: 400 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto;
+        color: var(--ink);
+        background: linear-gradient(180deg, #fafafa, #f2f3f5);
+      }
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+      .card header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .card header img {
+        width: 32px;
+        height: 32px;
+      }
+      .card header h1 {
+        font-size: 18px;
+        margin: 0;
+      }
+      .card .content {
+        padding: 22px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 12px;
+        min-height: 44px;
+        background: #fff;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 700;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+      }
+      .btn-primary {
+        background: var(--wine);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--wine-600);
+      }
+      .btn-ghost {
+        border-color: var(--border);
+        background: #fff;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .fine {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      footer {
+        margin-top: 18px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap" aria-label="Acceso administrador">
+      <form class="card" action="admin-panel.html" method="get" novalidate>
+        <header>
+          <img src="icon-192.png" alt="Logo WINE‑PICK‑QR" />
+          <h1>Acceso administrador</h1>
+        </header>
+        <div class="content">
+          <p class="fine">Solo personal autorizado de la vinoteca.</p>
+          <div class="field">
+            <label for="user">Usuario</label>
+            <input
+              id="user"
+              name="user"
+              type="text"
+              required
+              autocomplete="username"
+              placeholder="tu.usuario"
+            />
+          </div>
+          <div class="field">
+            <label for="pass">Contraseña</label>
+            <input
+              id="pass"
+              name="pass"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="••••••••"
+            />
+          </div>
+          <div class="row">
+            <a class="fine" href="#">¿Olvidaste tu contraseña?</a>
+            <div class="actions">
+              <a class="btn btn-ghost" href="index.html">Volver</a>
+              <button class="btn btn-primary" type="submit">Ingresar</button>
+            </div>
+          </div>
+        </div>
+        <footer>© 2025 WINE‑PICK‑QR</footer>
+      </form>
+    </main>
+  </body>
+</html>
