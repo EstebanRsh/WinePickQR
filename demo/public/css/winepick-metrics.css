@@ -1,0 +1,550 @@
+/* ===============================
+   WINE-PICK-QR – ADMIN MÉTRICAS
+   =============================== */
+
+:root {
+  --wp-primary: var(--winepick-primary, #7a003c);
+  --wp-primary-soft: var(--winepick-primary-soft, #f8eef3);
+  --wp-dark: var(--winepick-dark, #212529);
+  --wp-muted: var(--winepick-muted, #6c757d);
+  --wp-shadow-soft: var(--shadow-soft, 0 14px 30px rgba(0, 0, 0, 0.08));
+}
+
+/* Layout general */
+.admin-metrics-body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: radial-gradient(
+    circle at top left,
+    #fff3fb 0,
+    #ffffff 45%,
+    #f8f9fa 100%
+  );
+  min-height: 100vh;
+}
+
+.admin-metrics-main {
+  max-width: 1120px;
+  padding-top: 0.5rem; /* menos padding para que el search quede bien arriba */
+  padding-bottom: 5.5rem; /* espacio nav inferior */
+}
+
+/* Search pegado arriba */
+.metrics-search-section {
+  margin-bottom: 0.75rem;
+}
+
+/* Alertas */
+.metrics-alert {
+  margin: 0.25rem 0.1rem 0.75rem;
+}
+
+/* Header/resumen */
+.metrics-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wp-muted);
+  margin-bottom: 0.25rem;
+}
+
+.metrics-header-badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--wp-primary-soft);
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+.metrics-header-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--wp-dark);
+}
+
+.metrics-header-subtitle {
+  font-size: 0.9rem;
+  color: var(--wp-muted);
+}
+
+/* Rango de fechas */
+.metrics-range-controls {
+  font-size: 0.8rem;
+}
+
+.metrics-range-quick {
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.metrics-range-chip {
+  color: var(--wp-muted);
+  text-decoration: none;
+  padding: 0;
+}
+
+.metrics-range-chip:hover {
+  color: var(--wp-primary);
+  text-decoration: underline;
+}
+
+.metrics-range-inputs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.metrics-range-inputs .form-control {
+  border-radius: 10px;
+}
+
+.metrics-range-inputs .form-control:focus {
+  border-color: var(--wp-primary-soft);
+  box-shadow: 0 0 0 0.15rem rgba(122, 0, 60, 0.1);
+}
+
+.metrics-range-separator {
+  font-size: 0.8rem;
+  color: var(--wp-muted);
+}
+
+.metrics-range-label {
+  color: var(--wp-muted);
+}
+
+/* Botón suave */
+.btn-outline-soft {
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid #e4e6ea;
+  background-color: #ffffff;
+  color: var(--wp-dark);
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+
+.btn-outline-soft:hover {
+  border-color: var(--wp-primary-soft);
+  color: var(--wp-primary);
+  background-color: #ffffff;
+}
+
+/* Etiquetas de secciones */
+.metrics-section-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--wp-muted);
+  font-weight: 600;
+}
+
+.metrics-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--wp-dark);
+}
+
+/* Cards de resumen */
+.metrics-summary-card {
+  border-radius: 18px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: var(--wp-shadow-soft);
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out,
+    background 0.16s ease-out;
+}
+
+.metrics-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  background: radial-gradient(
+      circle at top right,
+      rgba(122, 0, 60, 0.04),
+      transparent 60%
+    ),
+    #ffffff;
+}
+
+.metrics-summary-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wp-muted);
+  font-weight: 600;
+}
+
+.metrics-summary-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--wp-dark);
+}
+
+.metrics-summary-foot {
+  font-size: 0.8rem;
+  color: var(--wp-muted);
+}
+
+.metrics-summary-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  background: var(--wp-primary-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--wp-primary);
+  font-size: 1rem;
+}
+
+/* Distribución QR vs búsqueda */
+.metrics-distribution {
+  border-radius: 18px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: var(--wp-shadow-soft);
+  margin-top: 0.25rem;
+}
+
+.metrics-distribution-legend {
+  font-size: 0.78rem;
+  color: var(--wp-muted);
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  margin-right: 0.25rem;
+}
+
+.legend-dot-qr {
+  background: linear-gradient(
+    90deg,
+    rgba(122, 0, 60, 0.9),
+    rgba(201, 42, 75, 0.9)
+  );
+}
+
+.legend-dot-search {
+  background: linear-gradient(
+    90deg,
+    rgba(30, 64, 175, 0.9),
+    rgba(59, 130, 246, 0.95)
+  );
+}
+
+.legend-separator {
+  margin-inline: 0.45rem;
+  color: var(--wp-muted);
+}
+
+.metrics-distribution-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: #edf1f7;
+}
+
+.metrics-distribution-bar-qr {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(122, 0, 60, 0.9),
+    rgba(201, 42, 75, 0.95)
+  );
+}
+
+.metrics-distribution-bar-search {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 64, 175, 0.9),
+    rgba(59, 130, 246, 0.95)
+  );
+}
+
+/* Resultados del buscador (cards) */
+.metrics-product-results {
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.metrics-product-result-card {
+  border-radius: 16px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: var(--wp-shadow-soft);
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.metrics-product-result-main {
+  min-width: 0;
+}
+
+.metrics-product-result-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--wp-dark);
+}
+
+.metrics-product-result-meta {
+  font-size: 0.8rem;
+  color: var(--wp-muted);
+}
+
+.metrics-product-result-pid {
+  font-size: 0.78rem;
+  color: var(--wp-muted);
+}
+
+.metrics-product-result-pid code {
+  font-size: 0.78rem;
+}
+
+/* Tablas de métricas */
+.metrics-table-card {
+  border-radius: 18px;
+  border: none;
+  background-color: #ffffff;
+  box-shadow: var(--wp-shadow-soft);
+}
+
+.metrics-table {
+  font-size: 0.84rem;
+  width: 100%;
+}
+
+.metrics-table thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wp-muted);
+  border-bottom-color: #e5e7eb;
+}
+
+.metrics-table tbody td {
+  border-top-color: #f1f3f5;
+}
+
+.metrics-table code {
+  font-size: 0.75rem;
+  word-break: break-all;
+}
+
+/* Paginación */
+.admin-pagination .page-link {
+  border-radius: 999px !important;
+  font-size: 0.78rem;
+}
+
+/* Modal métricas producto */
+.metrics-product-modal {
+  border-radius: 20px;
+  border: none;
+  box-shadow: var(--wp-shadow-soft);
+}
+
+.metrics-modal-subtitle {
+  font-size: 0.82rem;
+  color: var(--wp-muted);
+}
+
+.metrics-modal-summary {
+  background-color: #f8f9fa;
+  border-radius: 14px;
+  padding: 0.6rem 0.7rem;
+}
+
+.metrics-modal-summary-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wp-muted);
+}
+
+.metrics-modal-summary-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--wp-dark);
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 576px) {
+  .admin-metrics-main {
+    padding-inline: 0.8rem;
+  }
+
+  .admin-metrics-main header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
+  }
+
+  .metrics-range-controls {
+    width: 100%;
+    margin-top: 0.25rem;
+    text-align: left !important;
+  }
+
+  .metrics-range-quick {
+    justify-content: flex-start;
+  }
+
+  .metrics-range-inputs {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+  }
+
+  .metrics-range-inputs .form-control {
+    width: 100%;
+  }
+
+  .metrics-range-separator {
+    display: none;
+  }
+
+  .metrics-range-inputs .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .metrics-product-result-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metrics-product-result-actions {
+    width: 100%;
+  }
+
+  .metrics-product-result-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Para evitar scroll horizontal, escondemos columnas menos críticas */
+  .metrics-table-by-product th:nth-child(2),
+  .metrics-table-by-product td:nth-child(2),
+  .metrics-table-by-product th:nth-child(4),
+  .metrics-table-by-product td:nth-child(4),
+  .metrics-table-by-product th:nth-child(5),
+  .metrics-table-by-product td:nth-child(5) {
+    display: none;
+  }
+
+  .metrics-table-timeline th:nth-child(3),
+  .metrics-table-timeline td:nth-child(3),
+  .metrics-table-timeline th:nth-child(4),
+  .metrics-table-timeline td:nth-child(4) {
+    display: none;
+  }
+}
+
+/* Evitar scroll horizontal global */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* --------- Acordeón resumen --------- */
+
+.metrics-accordion-toggle {
+  background: #ffffff;
+  border-radius: 18px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  box-shadow: var(--wp-shadow-soft);
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.metrics-accordion-toggle:focus-visible {
+  outline: 2px solid var(--wp-primary-soft);
+  outline-offset: 2px;
+}
+
+.metrics-accordion-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--wp-muted);
+}
+
+.metrics-accordion-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--wp-dark);
+}
+
+.metrics-accordion-range {
+  max-width: 170px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metrics-accordion-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  flex-shrink: 0;
+  transition: transform 0.16s ease-out, background 0.16s ease-out,
+    box-shadow 0.16s ease-out;
+}
+
+.metrics-accordion-toggle[aria-expanded="true"] .metrics-accordion-icon i {
+  transform: rotate(180deg);
+}
+
+.metrics-summary-shell {
+  padding: 0.6rem 0.2rem 0;
+}
+
+@media (max-width: 576px) {
+  .metrics-accordion-toggle {
+    padding-inline: 0.8rem;
+  }
+
+  .metrics-accordion-range {
+    max-width: 120px;
+  }
+}

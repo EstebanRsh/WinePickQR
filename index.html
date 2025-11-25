@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WINE-PICK-QR – Presentación del Proyecto</title>
+    <meta
+      name="description"
+      content="WINE-PICK-QR es una PWA para vinotecas que muestra precio final, promociones y stock al escanear un QR en góndola. Incluye backoffice para administrar catálogo, promociones y métricas."
+    />
+
+    <!-- Fuente (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      :root {
+        --winepick-primary: #7a003c;
+        --winepick-primary-soft: #f8eef3;
+        --winepick-accent: #c92a4b;
+        --winepick-dark: #212529;
+        --winepick-muted: #6c757d;
+        --radius-card: 16px;
+        --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--winepick-dark);
+        background-color: #ffffff;
+      }
+
+      .navbar {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        background-color: #ffffff;
+      }
+
+      .navbar-brand span {
+        color: var(--winepick-primary);
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+      }
+
+      .navbar-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: var(--winepick-primary-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navbar-logo img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .btn-winepick {
+        background-color: var(--winepick-primary);
+        color: #ffffff;
+        border-radius: 999px;
+        padding: 0.55rem 1.4rem;
+        font-weight: 500;
+        border: none;
+      }
+
+      .btn-winepick:hover {
+        background-color: #5a002f;
+        color: #ffffff;
+      }
+
+      .btn-outline-soft {
+        border-radius: 999px;
+        padding: 0.55rem 1.4rem;
+      }
+
+      .hero {
+        padding: 6.5rem 0 4.5rem;
+        background: radial-gradient(circle at top left, #fff3fb 0, #ffffff 48%);
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 3.1vw, 2.6rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.02rem;
+        color: var(--winepick-muted);
+        max-width: 34rem;
+      }
+
+      .hero-tag {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.78rem;
+        color: var(--winepick-muted);
+        font-weight: 600;
+        margin-bottom: 0.45rem;
+      }
+
+      .hero-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        background: var(--winepick-primary-soft);
+        color: var(--winepick-primary);
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin-bottom: 0.7rem;
+      }
+
+      .hero-card {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 1.6rem 1.6rem 1.4rem;
+        box-shadow: var(--shadow-soft);
+        max-width: 360px;
+        margin-inline: auto;
+      }
+
+      .hero-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 24px;
+        background-color: var(--winepick-primary-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .hero-logo img {
+        max-width: 70%;
+        height: auto;
+        display: block;
+      }
+
+      .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.8rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        background-color: #f1f3f5;
+        margin-right: 0.35rem;
+        margin-bottom: 0.35rem;
+        white-space: nowrap;
+      }
+
+      .section {
+        padding: 3.5rem 0;
+      }
+
+      @media (min-width: 992px) {
+        .section {
+          padding: 4.5rem 0;
+        }
+      }
+
+      .section-tag {
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.78rem;
+        color: var(--winepick-muted);
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+
+      .section-title {
+        color: var(--winepick-primary);
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        font-size: 1.65rem;
+      }
+
+      .section-lead {
+        color: var(--winepick-muted);
+        max-width: 36rem;
+      }
+
+      .bg-soft {
+        background-color: #f8f9fa;
+      }
+
+      .feature-card {
+        border-radius: var(--radius-card);
+        border: none;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+        height: 100%;
+      }
+
+      .feature-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background-color: var(--winepick-primary-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+      }
+
+      .badge-tech {
+        background-color: #f1f3f5;
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+        font-size: 0.78rem;
+        margin: 0.15rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background-color: var(--winepick-primary);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .step-title {
+        font-weight: 600;
+        margin-bottom: 0.1rem;
+        font-size: 0.98rem;
+      }
+
+      .step-text {
+        font-size: 0.9rem;
+        color: var(--winepick-muted);
+        margin-bottom: 0;
+      }
+
+      .pill-list li {
+        margin-bottom: 0.35rem;
+        font-size: 0.92rem;
+        color: var(--winepick-muted);
+      }
+
+      .pill-list li::before {
+        content: "•";
+        color: var(--winepick-primary);
+        font-weight: 700;
+        display: inline-block;
+        width: 1rem;
+        margin-left: -0.5rem;
+      }
+
+      .team-card {
+        border-radius: var(--radius-card);
+        border: none;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+        height: 100%;
+      }
+
+      .team-role {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--winepick-muted);
+        margin-bottom: 0.35rem;
+        font-weight: 600;
+      }
+
+      .team-contact {
+        font-size: 0.85rem;
+      }
+
+      .faq .accordion-button {
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .faq .accordion-body {
+        font-size: 0.9rem;
+      }
+
+      .cta-card {
+        border-radius: 24px;
+        padding: 1.9rem 1.6rem;
+        background: linear-gradient(
+          135deg,
+          var(--winepick-primary) 0%,
+          #460021 100%
+        );
+        color: #ffffff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .cta-card p {
+        margin-bottom: 0.4rem;
+      }
+
+      footer {
+        border-top: 1px solid #e9ecef;
+        padding: 1.1rem 0;
+        font-size: 0.84rem;
+        color: var(--winepick-muted);
+        background-color: #ffffff;
+      }
+
+      /* Anclas compensando navbar fija */
+      [id] {
+        scroll-margin-top: 90px;
+      }
+
+      /* Ajustes responsive pequeños */
+      @media (max-width: 575.98px) {
+        .hero-card {
+          padding: 1.4rem 1.3rem 1.2rem;
+        }
+        .hero-title {
+          font-size: 1.9rem;
+        }
+        .navbar-brand span {
+          font-size: 0.95rem;
+        }
+      }
+
+      /* Estilo del botón GitHub */
+      .btn-github {
+        display: inline-flex;
+        align-items: center;
+        background-color: #24292f; /* color clásico de GitHub */
+        color: #ffffff;
+        border-radius: 999px;
+        padding: 0.45rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.25s ease, transform 0.15s ease;
+      }
+
+      .btn-github:hover {
+        background-color: #000000;
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#inicio">
+          <div class="navbar-logo me-2">
+            <!-- LOGO: ajustá la ruta del src -->
+            <img src="img/WinePickQR.png" alt="Logo WINE-PICK-QR" />
+          </div>
+          <span>WINE-PICK-QR</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Alternar navegación"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav align-items-lg-center mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#problema">Problema</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#como-funciona">Cómo funciona</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#vinoteca">Para la vinoteca</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#tecnologia">Tecnología</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#equipo">Equipo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#faq">FAQ</a>
+            </li>
+          </ul>
+          <a
+            href="https://tupad.org/g6/winepick/demo/public/index.php"
+            class="btn btn-winepick ms-lg-3"
+          >
+            Quiero ver la demo
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+      <div class="container">
+        <div class="row align-items-center gy-4 gy-lg-0">
+          <div class="col-lg-6">
+            <div class="hero-tag">PWA para vinotecas y licorerías</div>
+            <div class="hero-badge-pill">
+              Escaneo en góndola → precio final en segundos
+            </div>
+            <h1 class="hero-title">
+              Menos dudas en la góndola, más tiempo para recomendar vinos o
+              licores.
+            </h1>
+            <p class="hero-subtitle mb-4">
+              WINE-PICK-QR es una aplicación web instalable (PWA) que convierte
+              la señalización con QR en fichas claras de producto: precio final
+              con promoción aplicada, disponibilidad y datos esenciales para
+              decidir en el momento.
+            </p>
+
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+              <a href="#como-funciona" class="btn btn-winepick">
+                Ver recorrido del cliente
+              </a>
+              <a href="#vinoteca" class="btn btn-outline-soft btn-sm border">
+                Ver panel para la vinoteca
+              </a>
+            </div>
+
+            <p class="text-muted small mb-0">
+              Proyecto desarrollado como Trabajo Final Integrado. Alcance
+              actual: foco en consulta de precios, promociones y stock (sin
+              carrito ni cobro online).
+            </p>
+          </div>
+
+          <div class="col-lg-5 offset-lg-1">
+            <div class="hero-card">
+              <div class="hero-logo">
+                <!-- Reutilizamos el mismo logo de la app -->
+                <img src="img/WinePickQR.png" alt="Logo WINE-PICK-QR" />
+              </div>
+              <h2 class="h5 fw-semibold mb-1">Cómo lo ve el cliente</h2>
+              <p class="text-muted small mb-3">
+                Interfaz ligera y pensada para móviles, para localizar y
+                escanear fácilmente en el pasillo de la vinoteca.
+              </p>
+
+              <ul class="list-unstyled mb-3 small">
+                <li class="mb-1">
+                  • Selecciona <strong>Escanear</strong> o
+                  <strong>Buscar</strong>.
+                </li>
+                <li class="mb-1">
+                  • Escanea el QR estándar de góndola o botella.
+                </li>
+                <li class="mb-1">
+                  • Ve el <strong>precio final</strong>, promo vigente y stock.
+                </li>
+                <li>
+                  • Si algo falla, siempre hay un mensaje claro y opción de
+                  reintentar.
+                </li>
+              </ul>
+
+              <div class="mb-2">
+                <span class="hero-chip">Pensada para móviles</span>
+                <span class="hero-chip">PWA</span>
+                <span class="hero-chip">QR o búsqueda por texto</span>
+              </div>
+              <p class="text-muted small mb-0">
+                Los QR que se usan en góndola son códigos estándar de alta
+                legibilidad; el logo que ves arriba es la identidad visual de la
+                app.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problema & solución -->
+    <section id="problema" class="section">
+      <div class="container">
+        <div class="row gy-4 align-items-start">
+          <div class="col-lg-6">
+            <div class="section-tag">Contexto</div>
+            <h2 class="section-title">Qué problema aborda WINE-PICK-QR</h2>
+            <p class="section-lead mb-3">
+              En una vinoteca típica conviven cientos de etiquetas, precios y
+              promociones que cambian seguido. La información en la góndola
+              suele quedar desactualizada y el personal recibe las mismas
+              preguntas una y otra vez en horas pico.
+            </p>
+            <ul class="pill-list mb-3">
+              <li>
+                Cartelería con precios y promos que se desactualizan rápido.
+              </li>
+              <li>Dependencia del personal para resolver dudas simples.</li>
+              <li>Clientes que dudan y demoran la decisión de compra.</li>
+            </ul>
+            <p class="mb-0 text-muted">
+              El resultado: decisiones más lentas, experiencia menos fluida y
+              menos tiempo disponible para la asesoría que sí aporta valor.
+            </p>
+          </div>
+
+          <div class="col-lg-5 offset-lg-1">
+            <div class="section-tag">Propuesta</div>
+            <h3 class="h5 fw-semibold mb-2">
+              Una ficha clara, en el celular del cliente
+            </h3>
+            <p class="text-muted mb-3">
+              Señalización con código QR estándar en estantes o botellas que
+              abre una ficha con:
+            </p>
+            <ul class="pill-list mb-3">
+              <li>Nombre del producto, bodega/destilería, varietal y año.</li>
+              <li>Precio final con la promoción ya aplicada.</li>
+              <li>Disponibilidad (Disponible, Poco stock, Sin stock).</li>
+              <li>Descripción breve para decidir con confianza.</li>
+            </ul>
+            <p class="text-muted small mb-0">
+              Todo se mantiene desde un único panel de administrador: cuando
+              cambia un precio o una promo, se actualiza una sola vez y se
+              refleja en todos los QR.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cómo funciona (cliente + admin) -->
+    <section id="como-funciona" class="section bg-soft">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="section-tag">Flujo principal</div>
+            <h2 class="section-title">Cómo se usa en la tienda</h2>
+            <p class="section-lead mb-0">
+              El diseño de las vistas sigue principios de claridad: pocas
+              decisiones por pantalla, jerarquía tipográfica clara y mensajes
+              escritos para personas, no para sistemas.
+            </p>
+          </div>
+        </div>
+
+        <div class="row gy-5">
+          <div class="col-lg-6">
+            <h3 class="h6 text-uppercase text-muted fw-semibold mb-3">
+              Cliente (PWA móvil)
+            </h3>
+
+            <div class="step mb-3">
+              <div class="step-number">1</div>
+              <div>
+                <div class="step-title">Home / Launcher</div>
+                <p class="step-text">
+                  El cliente ingresa a la app, ve el logo y dos acciones
+                  grandes:
+                  <strong>Escanear QR</strong> o
+                  <strong>Buscar productos</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step mb-3">
+              <div class="step-number">2</div>
+              <div>
+                <div class="step-title">Escanear o buscar por texto</div>
+                <p class="step-text">
+                  Si escanea, la cámara se abre con un marco guía; si prefiere
+                  tipear, puede buscar por nombre, bodega/destilería o varietal.
+                </p>
+              </div>
+            </div>
+
+            <div class="step mb-3">
+              <div class="step-number">3</div>
+              <div>
+                <div class="step-title">Ficha de producto</div>
+                <p class="step-text">
+                  La ficha muestra en menos de cinco segundos el precio final
+                  con promo, la disponibilidad y los datos esenciales del vino o
+                  de otro licor.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <div>
+                <div class="step-title">Errores y offline</div>
+                <p class="step-text">
+                  Si no hay conexión o el producto no existe, la app muestra un
+                  mensaje claro con opciones para reintentar o volver a la
+                  búsqueda.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <h3 class="h6 text-uppercase text-muted fw-semibold mb-3">
+              Administrador (Panel exclusivo o Backoffice)
+            </h3>
+
+            <div class="step mb-3">
+              <div class="step-number">1</div>
+              <div>
+                <div class="step-title">Login seguro</div>
+                <p class="step-text">
+                  Acceso privado para el local. Solo personal autorizado puede
+                  administrar catálogo, promociones y métricas.
+                </p>
+              </div>
+            </div>
+
+            <div class="step mb-3">
+              <div class="step-number">2</div>
+              <div>
+                <div class="step-title">Gestión de productos</div>
+                <p class="step-text">
+                  Listado ordenado y formulario guiado para crear/editar
+                  productos: datos básicos, precio de lista, stock, descripción
+                  e imagen.
+                </p>
+              </div>
+            </div>
+
+            <div class="step mb-3">
+              <div class="step-number">3</div>
+              <div>
+                <div class="step-title">Motor de promociones</div>
+                <p class="step-text">
+                  Alta y edición de promociones (% de descuento, 2x o combos
+                  simples) con reglas de vigencia y no acumulación para evitar
+                  solapamientos.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <div>
+                <div class="step-title">Métricas de uso</div>
+                <p class="step-text">
+                  Resumen de consultas por producto y día, diferenciando origen
+                  QR vs. búsqueda, sin recolectar datos personales.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beneficios para la vinoteca -->
+    <section id="vinoteca" class="section">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="section-tag">Foco en el negocio</div>
+            <h2 class="section-title">Beneficios concretos para la vinoteca</h2>
+            <p class="section-lead mb-0">
+              La primera versión se centra en resolver bien el momento de
+              decisión en góndola y facilitar la actualización operativa de
+              precios y promociones.
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <div class="card feature-card h-100">
+              <div class="card-body">
+                <div class="feature-icon">📱</div>
+                <h3 class="h6 fw-semibold mb-2">Mejor experiencia de compra</h3>
+                <p class="text-muted small mb-0">
+                  El cliente entiende precio y promoción sin hacer filas ni
+                  depender del personal. El personal puede dedicar más tiempo a
+                  recomendar y cerrar ventas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card feature-card h-100">
+              <div class="card-body">
+                <div class="feature-icon">🧾</div>
+                <h3 class="h6 fw-semibold mb-2">
+                  Señalización siempre vigente
+                </h3>
+                <p class="text-muted small mb-0">
+                  Un cambio en el panel de administrador actualiza
+                  automáticamente todos los QR. No hace falta reimprimir
+                  carteles cada vez que hay una promo nueva o un ajuste de
+                  precio.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card feature-card h-100">
+              <div class="card-body">
+                <div class="feature-icon">📊</div>
+                <h3 class="h6 fw-semibold mb-2">Métricas accionables</h3>
+                <p class="text-muted small mb-0">
+                  Un tablero simple muestra qué productos se consultan más y
+                  desde qué canal. Sirve para decidir promociones, señalización
+                  y rotación, sin complicar la operación diaria.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-lg-8">
+            <p class="text-muted small mb-0">
+              En esta etapa inicial no se incluyen carrito de compras,
+              integración con caja ni recomendaciones automatizadas: el foco
+              está puesto en la consulta de precio final, promociones y stock de
+              forma clara y confiable.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tecnología -->
+    <section id="tecnologia" class="section bg-soft">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="section-tag">Cómo se construyó</div>
+            <h2 class="section-title">Arquitectura y stack tecnológico</h2>
+            <p class="section-lead mb-0">
+              El proyecto usa tecnologías conocidas y mantenibles, con una
+              arquitectura pensada para crecer sin perder simplicidad.
+            </p>
+          </div>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <h3 class="h6 fw-semibold mb-2">Frontend (Cliente y Admin)</h3>
+            <p class="text-muted small mb-2">
+              Interfaz mobile-first (prioriza los dispositivos móviles) basada
+              en componentes de Bootstrap, con énfasis en accesibilidad,
+              jerarquía tipográfica clara y estados visibles (cargando, vacío,
+              error, offline).
+            </p>
+            <div class="mb-2">
+              <span class="badge-tech">HTML5</span>
+              <span class="badge-tech">CSS3</span>
+              <span class="badge-tech">Bootstrap 5.3</span>
+              <span class="badge-tech">JavaScript (vanilla)</span>
+            </div>
+            <p class="text-muted small mb-0">
+              La PWA aprovecha Service Worker para cachear el “marco” de la app
+              y mostrar mensajes coherentes incluso ante problemas de
+              conectividad.
+            </p>
+          </div>
+
+          <div class="col-md-6">
+            <h3 class="h6 fw-semibold mb-2">Backend, datos y métricas</h3>
+            <p class="text-muted small mb-2">
+              API REST ligera que centraliza catálogo, precios, reglas de
+              promoción y registro agregado de consultas.
+            </p>
+            <div class="mb-2">
+              <span class="badge-tech">PHP 8.x (MVC)</span>
+              <span class="badge-tech">MySQL 8.x</span>
+              <span class="badge-tech">API REST (JSON)</span>
+            </div>
+            <p class="text-muted small mb-1">
+              Herramientas de apoyo en el desarrollo:
+            </p>
+            <p class="text-muted small mb-0">
+              XAMPP, phpMyAdmin, Postman para pruebas de API y FileZilla para
+              despliegue a hosting.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacidad & Alcance -->
+    <section class="section">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6">
+            <div class="section-tag">Privacidad y datos</div>
+            <h2 class="section-title">Sin usuarios, sin datos personales</h2>
+            <p class="section-lead mb-3">
+              El objetivo es medir uso de forma agregada, sin rastrear personas.
+            </p>
+            <ul class="pill-list mb-3">
+              <li>No se piden datos personales al cliente.</li>
+              <li>La cámara se usa solo para leer el QR en tiempo real.</li>
+              <li>
+                Se registran consultas agregadas por producto/día y canal (QR
+                vs. búsqueda).
+              </li>
+              <li>
+                La política de uso de métricas se comunica en lenguaje simple y
+                visible.
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-5 offset-lg-1">
+            <div class="section-tag">Alcance de la versión inicial</div>
+            <h3 class="h6 fw-semibold mb-2">
+              Qué incluye y qué queda para versiones posteriores
+            </h3>
+            <ul class="pill-list mb-2">
+              <li>Acceso por QR a ficha de producto (PID opaco en la URL).</li>
+              <li>
+                Ficha de producto mobile-first (con prioridad en móviles) con
+                precio final y stock.
+              </li>
+              <li>
+                Búsqueda por nombre/bodega/destilería o varietal como plan B al
+                QR.
+              </li>
+              <li>
+                CRUD de productos y promociones en el panel de administrador.
+              </li>
+              <li>Métricas mínimas de consultas por producto y día.</li>
+            </ul>
+            <p class="text-muted small mb-0">
+              Quedan fuera de alcance para etapas posteriores: carrito de
+              compras, integración automática con sistemas de caja, reglas de
+              promociones más complejas y recomendaciones asistidas por IA.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipo -->
+    <section id="equipo" class="section bg-soft">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="section-tag">Equipo</div>
+            <h2 class="section-title">Quiénes desarrollan WINE-PICK-QR</h2>
+            <p class="section-lead mb-0">
+              El proyecto fue diseñado y desarrollado por dos estudiantes como
+              Trabajo Final Integrado, con foco en resolver un problema real de
+              una vinoteca mediana.
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div class="col">
+            <div class="card team-card h-100">
+              <div class="card-body">
+                <div class="team-role">
+                  Co-autor · Backend &amp; Arquitectura
+                </div>
+                <h3 class="h6 fw-semibold mb-1">Jorge Asensio</h3>
+                <p class="text-muted small mb-2">
+                  Enfoque en diseño de la API, modelo de datos y reglas de
+                  negocio para el motor de promociones y el manejo de stock.
+                </p>
+                <p class="team-contact mb-0">
+                  Contacto:
+                  <a href="mailto:jorge.asensio@example.com">
+                    jorge.asensio@example.com
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card team-card h-100">
+              <div class="card-body">
+                <div class="team-role">Co-autor · Frontend &amp; UX</div>
+                <h3 class="h6 fw-semibold mb-1">Esteban Rusch</h3>
+                <p class="text-muted small mb-2">
+                  Responsable de la experiencia mobile-first del cliente, vistas
+                  de administración y lineamientos de diseño responsivo.
+                </p>
+                <p class="team-contact mb-0">
+                  Contacto:
+                  <a href="mailto:esteban.rusch@example.com">
+                    esteban.rusch@example.com
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <div class="section-tag">Preguntas frecuentes</div>
+            <h2 class="section-title">Respuestas rápidas para el cliente</h2>
+            <p class="section-lead mb-0">
+              Un resumen de las dudas que suelen aparecer cuando presentamos la
+              solución a una vinoteca (o licorería).
+            </p>
+          </div>
+        </div>
+
+        <div class="faq accordion" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faq1">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq1Content"
+                aria-expanded="true"
+                aria-controls="faq1Content"
+              >
+                ¿Los clientes necesitan instalar una app nativa o crear usuario?
+              </button>
+            </h2>
+            <div
+              id="faq1Content"
+              class="accordion-collapse collapse show"
+              aria-labelledby="faq1"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                No. WINE-PICK-QR es una aplicación web progresiva (PWA): se abre
+                desde el navegador del celular y, si el cliente quiere, puede
+                agregarla a la pantalla de inicio. No se piden datos personales
+                ni registro para consultar precios y promociones.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faq2">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq2Content"
+                aria-expanded="false"
+                aria-controls="faq2Content"
+              >
+                ¿La app guarda fotos o videos al usar la cámara?
+              </button>
+            </h2>
+            <div
+              id="faq2Content"
+              class="accordion-collapse collapse"
+              aria-labelledby="faq2"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                No. La cámara se usa exclusivamente para leer códigos QR
+                estándar en tiempo real. No se almacenan fotos, videos ni
+                información biométrica de ningún tipo en el dispositivo ni en el
+                servidor.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faq3">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq3Content"
+                aria-expanded="false"
+                aria-controls="faq3Content"
+              >
+                ¿Qué pasa si no hay buena señal de internet?
+              </button>
+            </h2>
+            <div
+              id="faq3Content"
+              class="accordion-collapse collapse"
+              aria-labelledby="faq3"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                La app necesita conexión para consultar la API y garantizar que
+                el precio final y las promociones estén actualizados. Si la
+                conexión falla, se muestra un mensaje claro con opción de
+                reintentar y una salida para volver a la pantalla inicial.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="faq4">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq4Content"
+                aria-expanded="false"
+                aria-controls="faq4Content"
+              >
+                ¿Qué tanto trabajo implica mantener los precios al día?
+              </button>
+            </h2>
+            <div
+              id="faq4Content"
+              class="accordion-collapse collapse"
+              aria-labelledby="faq4"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                El Panel de Administrador (backoffice) está pensado para tareas
+                cotidianas: actualizar un precio o activar una promoción lleva
+                solo unos pasos y se refleja automáticamente en todas las fichas
+                vinculadas al QR. No hace falta modificar cartelería física cada
+                vez que cambia una promo.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto / CTA -->
+    <section id="contacto" class="section">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-7">
+            <div class="section-tag">Próximos pasos</div>
+            <h2 class="section-title">¿Querés ver WINE-PICK-QR en acción?</h2>
+            <p class="section-lead mb-3">
+              La demo muestra el recorrido completo: escaneo del QR en góndola,
+              ficha de producto con precio final y promo, y una mirada rápida al
+              backoffice de productos y promociones.
+            </p>
+            <ul class="pill-list mb-3">
+              <li>Relevamos un pequeño catálogo de prueba.</li>
+              <li>
+                Configuramos algunas promociones típicas de fin de semana.
+              </li>
+              <li>Simulamos el uso en horario pico y medimos resultados.</li>
+            </ul>
+            <p class="text-muted mb-1">
+              Para coordinar una demo o solicitar más información:
+            </p>
+            <p class="text-muted mb-0">
+              Escribí a:
+              <a href="mailto:contacto@winepickqr.demo"
+                >contacto@winepickqr.demo</a
+              >
+              <!-- Cambiá por el mail real -->
+            </p>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="cta-card">
+              <h3 class="h6 fw-semibold mb-2">Ficha rápida del proyecto</h3>
+              <p class="small mb-1">
+                <strong>Tipo de app:</strong> PWA móvil para consulta de precios
+                y promociones vía QR o búsqueda.
+              </p>
+              <p class="small mb-1">
+                <strong>Estado:</strong> MVP funcional orientado a prueba piloto
+                en una vinoteca (licorería) mediana.
+              </p>
+              <p class="small mb-1">
+                <strong>Alcance:</strong> catálogo, promociones, métricas
+                básicas; sin carrito ni cobro online.
+              </p>
+              <p class="small mb-0">
+                <strong>Objetivo de la primera entrega:</strong> decisiones más
+                rápidas en góndola, menos consultas repetidas y señalización
+                siempre vigente sin reimprimir carteles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between align"
+      >
+        <span>
+          © <span id="year"></span> WINE-PICK-QR · Trabajo Final Integrado.
+        </span>
+        <!--<span>
+        La información mostrada en la app es responsabilidad de la vinoteca y
+        puede variar según sucursal y fecha.
+      </span>-->
+
+        <!-- Botón GitHub -->
+        <a
+          href="https://github.com/EstebanRsh/WinePickQR.git"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-github"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            fill="currentColor"
+            class="bi bi-github me-2"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
+          0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
+          -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2
+          -3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+          0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82
+          2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15
+          0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+          0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+            />
+          </svg>
+          Repositorio en GitHub
+        </a>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      // Año dinámico en el footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

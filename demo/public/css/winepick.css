@@ -1,0 +1,311 @@
+:root {
+  --winepick-primary: #7a003c;
+  --winepick-primary-soft: #f8eef3;
+  --winepick-accent: #c92a4b;
+  --winepick-dark: #212529;
+  --winepick-muted: #6c757d;
+  --radius-card: 16px;
+  --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0; /* importante para pegar todo al top */
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  background-color: #f8f9fa;
+  color: var(--winepick-dark);
+}
+
+/* HERO / SECCIONES */
+
+.hero {
+  padding: 1rem 0 1.5rem; /* antes 5.5rem 0 1.5rem */
+  background: radial-gradient(circle at top left, #fff3fb 0, #ffffff 48%);
+}
+
+
+.section {
+  padding: 2.5rem 0;
+}
+
+@media (min-width: 992px) {
+  .section {
+    padding: 3.5rem 0;
+  }
+}
+
+.section-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  color: var(--winepick-muted);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.section-title {
+  color: var(--winepick-primary);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-size: 1.65rem;
+}
+
+.section-lead {
+  color: var(--winepick-muted);
+  max-width: 36rem;
+}
+
+/* CHIPS, CARDS, BOTONES */
+
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--winepick-primary-soft);
+  font-size: 0.78rem;
+  color: var(--winepick-dark);
+  background-color: #ffffff;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.feature-card {
+  border-radius: var(--radius-card);
+  border: none;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+  height: 100%;
+}
+
+.btn-winepick {
+  background-color: var(--winepick-primary);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  font-weight: 500;
+  border: none;
+}
+
+.btn-winepick:hover {
+  background-color: #5a002f;
+  color: #ffffff;
+}
+
+.btn-outline-soft {
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+}
+
+/* FICHA VINO */
+
+.hero-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 1.6rem 1.6rem 1.4rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* BOTTOM NAV TIPO MERCADO LIBRE */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  padding: 0.25rem 0.75rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1030;
+}
+
+/* Items laterales (Inicio, Favoritos, Promos, Más) */
+.bottom-nav-item {
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--winepick-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+  min-width: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border: none;
+  background: transparent;
+}
+
+/* icono + texto */
+.bottom-nav-item i {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  transition: transform 0.16s ease-out, color 0.16s ease-out;
+}
+
+.bottom-nav-item span {
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* barrita superior para el activo, estilo pestaña */
+.bottom-nav-item::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: var(--winepick-primary);
+  opacity: 0;
+  transition: opacity 0.16s ease-out;
+}
+
+/* estado activo */
+.bottom-nav-item.active {
+  color: var(--winepick-primary);
+  font-weight: 500;
+}
+
+.bottom-nav-item.active::before {
+  opacity: 1;
+}
+
+.bottom-nav-item.active i {
+  transform: translateY(-1px);
+}
+
+/* efecto de pulsado */
+.bottom-nav-item:active i {
+  transform: translateY(1px) scale(0.96);
+}
+
+/* Botón central de escáner (flotante) */
+.bottom-nav-scan {
+  position: relative;
+  top: -20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--winepick-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  transition: box-shadow 0.16s ease-out, transform 0.16s ease-out;
+}
+
+.bottom-nav-scan-icon {
+  font-size: 1.7rem;
+}
+
+/* hover / active del botón central */
+.bottom-nav-scan:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+
+
+/* ============================
+   LISTADO DE VINOS – ESTILO CARDS
+   ============================ */
+
+.vino-grid-wrapper {
+  margin-top: 0.5rem;
+}
+
+.vino-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.9rem;
+}
+
+/* Card de producto (similar a Mercado Libre, pero con paleta WinePick) */
+.vino-card {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Imagen / placeholder */
+.vino-card-image-wrapper {
+  width: 100%;
+  border-radius: 12px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vino-card-image {
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+}
+
+/* Texto de la card */
+.vino-card-body {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.vino-card-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--winepick-dark);
+  margin: 0;
+}
+
+.vino-card-subtitle {
+  font-size: 0.8rem;
+  color: var(--winepick-muted);
+  margin: 0;
+}
+
+.vino-card-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0;
+  color: var(--winepick-dark);
+}
+
+.vino-card-promo {
+  font-size: 0.8rem;
+  color: #198754; /* verde estilo promo */
+  margin: 0.1rem 0 0;
+}
+
+.vino-card-footer {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.vino-card-btn {
+  font-size: 0.8rem;
+  padding-inline: 1rem;
+}
+
+/* En pantallas muy chicas, una columna */
+@media (max-width: 480px) {
+  .vino-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,70 @@
+/* =========================================
+   PAGINATION.CSS - Controles de paginación
+   Usa variables definidas en winepick.css
+   ========================================= */
+
+#paginacion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: #ffffff;
+  border-radius: 999px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Botones (aplica sobre los que crea pagination.js) */
+#paginacion .btn {
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-weight: 500;
+  border: 1px solid var(--winepick-primary-soft);
+  background-color: #ffffff;
+  color: var(--winepick-dark);
+  line-height: 1;
+}
+
+#paginacion .btn:hover:not(:disabled) {
+  background-color: var(--winepick-primary-soft);
+  color: var(--winepick-primary);
+  border-color: var(--winepick-primary);
+}
+
+#paginacion .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Texto de página actual */
+#paginacion .page-info,
+#paginacion span.align-self-center {
+  font-size: 0.85rem;
+  color: var(--winepick-muted);
+  white-space: nowrap;
+}
+
+/* Íconos Bootstrap (si usás .bi) */
+#paginacion i {
+  font-size: 1rem;
+  vertical-align: -0.1em;
+}
+
+/* Compacto en mobile */
+@media (max-width: 480px) {
+  #paginacion {
+    gap: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 16px;
+  }
+
+  #paginacion .btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  #paginacion .page-info,
+  #paginacion span.align-self-center {
+    font-size: 0.8rem;
+  }
+}

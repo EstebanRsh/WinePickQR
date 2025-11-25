@@ -1,0 +1,53 @@
+/* Barra de búsqueda dentro del header, estilo Mercado Libre */
+.search-header-form {
+  margin-bottom: 1.25rem;
+}
+
+.search-header-input {
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.search-header-input .input-group-text {
+  background-color: #ffffff;
+  border: none;
+  color: var(--winepick-muted);
+}
+
+.search-header-input .form-control {
+  border: none;
+  box-shadow: none;
+}
+
+.search-header-input .form-control:focus {
+  box-shadow: none;
+}
+
+.search-header-input .btn-winepick {
+  border-radius: 0;
+}
+
+/* Botón de filtros dentro de la barra de búsqueda */
+.search-header-input .btn-filters {
+  background-color: #ffffff;
+  border: none;
+  border-left: 1px solid #f1f1f1;
+  border-radius: 0;
+  color: var(--winepick-muted);
+  padding-inline: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-header-input .btn-filters i {
+  font-size: 1.05rem;
+}
+
+.search-header-input .btn-filters:hover {
+  color: var(--winepick-primary);
+  background-color: #fafafa;
+}

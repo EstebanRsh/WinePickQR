@@ -1,0 +1,258 @@
+/* =========================================
+   NAVBAR.CSS - Estilos de Navegación
+   ========================================= */
+
+/* -----------------------------------------
+   MOBILE BOTTOM NAV (Solo visible en móvil)
+   ----------------------------------------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  padding: 0.25rem 0.75rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1030;
+}
+
+/* Items laterales */
+.bottom-nav-item {
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--winepick-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+  min-width: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border: none;
+  background: transparent;
+  text-decoration: none; /* Fix para <a> */
+}
+
+.bottom-nav-item:hover {
+  color: var(--winepick-muted); /* Evita cambio de color default en links */
+}
+
+/* Icono y Texto */
+.bottom-nav-item i {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  transition: transform 0.16s ease-out, color 0.16s ease-out;
+}
+
+.bottom-nav-item span {
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Barrita superior activa */
+.bottom-nav-item::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: var(--winepick-primary);
+  opacity: 0;
+  transition: opacity 0.16s ease-out;
+}
+
+/* Estado Activo Mobile */
+.bottom-nav-item.active {
+  color: var(--winepick-primary);
+  font-weight: 500;
+}
+
+.bottom-nav-item.active::before {
+  opacity: 1;
+}
+
+.bottom-nav-item.active i {
+  transform: translateY(-1px);
+}
+
+.bottom-nav-item:active i {
+  transform: translateY(1px) scale(0.96);
+}
+
+/* Botón central flotante (Mobile) */
+.bottom-nav-scan {
+  position: relative;
+  top: -20px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--winepick-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  transition: box-shadow 0.16s ease-out, transform 0.16s ease-out;
+  padding: 0;
+}
+
+.bottom-nav-scan-icon {
+  font-size: 1.7rem;
+}
+
+.bottom-nav-scan:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* -----------------------------------------
+   DESKTOP TOP NAV (Visible en PC)
+   ----------------------------------------- */
+.desktop-nav {
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+  padding: 0.8rem 0;
+  position: fixed; /* O fixed-top si prefieres */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1030;
+  transition: all 0.3s ease;
+}
+
+.desktop-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo / Marca */
+.desktop-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--winepick-primary);
+  text-decoration: none;
+  margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.desktop-brand:hover {
+  color: var(--winepick-accent);
+}
+
+/* Links de navegación */
+.desktop-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: auto; /* Empuja el resto a la derecha */
+}
+
+.desktop-link {
+  color: var(--winepick-muted);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.desktop-link i {
+  font-size: 1.1rem;
+}
+
+.desktop-link:hover {
+  background-color: var(--winepick-primary-soft);
+  color: var(--winepick-primary);
+}
+
+.desktop-link.active {
+  background-color: var(--winepick-primary);
+  color: #ffffff;
+}
+
+/* Zona derecha (Scan + Login) */
+.desktop-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-desktop-scan {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   AJUSTES DE ESPACIADO (PADDING DEL BODY)
+   ========================================= */
+
+/* VERSIÓN DESKTOP (PC) 
+   Empujamos el contenido hacia abajo para que la barra superior no lo tape.
+*/
+@media (min-width: 768px) {
+  body {
+    padding-top: 85px; /* Ajusta este número si sientes que falta o sobra espacio */
+    padding-bottom: 0;
+  }
+}
+
+/* VERSIÓN MOBILE (Celular)
+   Empujamos el contenido hacia arriba (quitamos el padding-top)
+   y agregamos espacio abajo para que la barra inferior no tape el último producto.
+*/
+@media (max-width: 767.98px) {
+  body {
+    padding-top: 0;
+    padding-bottom: 80px; /* Espacio para la barra inferior */
+  }
+}
+
+/* =========================================
+   BUSCADOR EN NAV DESKTOP
+   ========================================= */
+
+.desktop-search-wrapper {
+  flex: 1; /* Ocupa el espacio sobrante */
+  max-width: 550px; /* Ancho máximo elegante */
+  margin: 0 2rem; /* Separación del logo y el botón login */
+}
+
+/* Ajustes visuales específicos para el buscador en el navbar */
+.desktop-nav .search-header-input {
+  background-color: #f3f4f6 !important; /* Gris muy suave para diferenciar del fondo blanco */
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  box-shadow: none; /* Quitamos sombra pesada en el nav */
+}
+
+.desktop-nav .search-header-input:focus-within {
+  background-color: #ffffff !important;
+  border-color: var(--winepick-primary-soft);
+  box-shadow: 0 0 0 3px rgba(122, 0, 60, 0.05); /* Focus ring suave */
+}
+
+.desktop-nav .btn-filters {
+  border-color: #e5e7eb !important; /* Separador sutil */
+}
